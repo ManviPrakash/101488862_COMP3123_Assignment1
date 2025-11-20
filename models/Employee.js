@@ -15,8 +15,11 @@ const employeeSchema = new mongoose.Schema(
     salary: { type: Number, required: true, min: 0 },
     date_of_joining: { type: Date, required: true },
     department: { type: String, required: true, trim: true },
+    profileImage: { type: String, default: "" },
   },
-  { timestamps: true } // 👈 auto-adds createdAt & updatedAt
+  
+   
+  { timestamps: true } 
 );
 
 module.exports = mongoose.model("Employee", employeeSchema);

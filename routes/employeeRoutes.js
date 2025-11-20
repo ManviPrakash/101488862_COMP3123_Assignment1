@@ -1,20 +1,28 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../middleware/upload");
+const auth = require("../middleware/auth");
+
 const {
   getEmployees,
   getEmployeeById,
   createEmployee,
   updateEmployee,
   deleteEmployee,
+  searchEmployees
 } = require("../controllers/employeeController");
 
-// Optional: JWT middleware to protect routes
-// const { protect } = require("../middleware/authMiddleware");
+// SEARCH route
+router.get("/employees/search", auth, searchEmployees);
 
-router.get("/employees", /*protect,*/ getEmployees);
-router.get("/employees/:eid", /*protect,*/ getEmployeeById);
-router.post("/employees", /*protect,*/ createEmployee);
-router.put("/employees/:eid", /*protect,*/ updateEmployee);
-router.delete("/employees", /*protect,*/ deleteEmployee);
+// NORMAL CRUD routes
+router.get("/employees", auth, getEmployees);
+router.get("/employees/:eid", auth, getEmployeeById);
+
+router.post("/employees", auth, upload.single("profileImage"), createEmployee);
+
+router.put("/employees/:eid", auth, upload.single("profileImage"), updateEmployee);
+
+router.delete("/employees/:eid", auth, deleteEmployee);
 
 module.exports = router;
